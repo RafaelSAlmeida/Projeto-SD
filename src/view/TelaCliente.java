@@ -71,7 +71,7 @@ public class TelaCliente extends javax.swing.JFrame {
         jButtonAlunos = new javax.swing.JButton();
         jButtonProfessor = new javax.swing.JButton();
         jButtonSalas = new javax.swing.JButton();
-        jButtonDisciplinas1 = new javax.swing.JButton();
+        jButtonAulas1 = new javax.swing.JButton();
         jPanelLogs = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPaneLog = new javax.swing.JTextPane();
@@ -120,10 +120,10 @@ public class TelaCliente extends javax.swing.JFrame {
             }
         });
 
-        jButtonDisciplinas1.setText("Aulas");
-        jButtonDisciplinas1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAulas1.setText("Aulas");
+        jButtonAulas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDisciplinas1ActionPerformed(evt);
+                jButtonAulas1ActionPerformed(evt);
             }
         });
 
@@ -141,7 +141,7 @@ public class TelaCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSalas, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDisciplinas1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addComponent(jButtonAulas1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanelConteudoLayout.setVerticalGroup(
@@ -153,7 +153,7 @@ public class TelaCliente extends javax.swing.JFrame {
                     .addComponent(jButtonSalas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDisciplinas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDisciplinas1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonAulas1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(156, Short.MAX_VALUE))
         );
 
@@ -352,9 +352,10 @@ public class TelaCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonSalasActionPerformed
 
-    private void jButtonDisciplinas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDisciplinas1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonDisciplinas1ActionPerformed
+    private void jButtonAulas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAulas1ActionPerformed
+        Aulas aula = new Aulas(processador);
+        aula.setVisible(true);
+    }//GEN-LAST:event_jButtonAulas1ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -380,9 +381,9 @@ public class TelaCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAlunos;
+    private javax.swing.JButton jButtonAulas1;
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonDisciplinas;
-    private javax.swing.JButton jButtonDisciplinas1;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonProfessor;
     private javax.swing.JButton jButtonSalas;
