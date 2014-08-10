@@ -362,13 +362,12 @@ public class TelaProfessor extends javax.swing.JFrame {
         termoBusca = JOptionPane.showInputDialog("Digite o NOME DA DISCIPLINA que deseja buscar:");
 
         if (!termoBusca.equals("")) {
-            //vou modificar esta parte
             professorvo.setDepartamento("");
             professorvo.setDisciplinas("");
             professorvo.setEndereco("");
-            //professorvo.setIdade("");
+            professorvo.setIdade(0);
             professorvo.setLinha_pesquisa("");
-            //professorvo.setRA("");
+            professorvo.setRA(0);
             professorvo.setProfessor_id(0);
             professorvo.setNome(termoBusca);
             
