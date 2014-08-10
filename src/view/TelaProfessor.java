@@ -323,11 +323,73 @@ public class TelaProfessor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-
+        if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover o registro?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0){
+            if (jTextFieldCodigo.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover antes de efetuar a operação.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }else{
+                String mensagem;
+                String retornoServidor = "";
+                ProfessorVO professorvo = new ProfessorVO();
+                
+                professorvo.setProfessor_id(Integer.parseInt(jTextFieldCodigo.getText()));
+                professorvo.setDepartamento(jTextFieldDepartamento.getText());
+                professorvo.setDisciplinas(jTextFieldDisciplina.getText());
+                professorvo.setEndereco(jTextFieldEndereco.getText());
+                professorvo.setIdade(Integer.parseInt(jTextFieldIdade.getText()));
+                professorvo.setLinha_pesquisa(jTextFieldLinhaPesquisa.getText());
+                professorvo.setNome(jTextFieldNome.getText());
+                professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));
+                
+                mensagem = montarMensagem(3, professorvo, "professor");
+                processador.enviarMensagem(mensagem);
+                while (!processador.isRecebeuMsg()) {
+                    /* gambiarra para aguardar o retorno do servidor :D */
+                }
+                retornoServidor = processador.getConteudoRecebido();
+                JOptionPane.showMessageDialog(null, tratarMensagemServidor(retornoServidor), "Resposta do Servidor", JOptionPane.INFORMATION_MESSAGE);
+                limpaCampo();
+            }
+        }
+        controleCrud(true);
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
-        // TODO add your handling code here:
+        String mensagem;
+        String retornoServidor = "";
+        ProfessorVO professorvo = new ProfessorVO();
+        
+        String termoBusca = "";
+        termoBusca = JOptionPane.showInputDialog("Digite o NOME DA DISCIPLINA que deseja buscar:");
+
+        if (!termoBusca.equals("")) {
+            //vou modificar esta parte
+            professorvo.setDepartamento("");
+            professorvo.setDisciplinas("");
+            professorvo.setEndereco("");
+            //professorvo.setIdade("");
+            professorvo.setLinha_pesquisa("");
+            //professorvo.setRA("");
+            professorvo.setProfessor_id(0);
+            professorvo.setNome(termoBusca);
+            
+            mensagem = montarMensagem(4, professorvo, "professor");
+            processador.enviarMensagem(mensagem);
+            while (!processador.isRecebeuMsg()) {
+                /* gambiarra para aguardar o retorno do servidor :D */
+            }
+            professorvo = gson.fromJson(tratarMensagemServidor(processador.getConteudoRecebido()), ProfessorVO.class);
+
+            if (professorvo != null) {
+                jTextFieldCodigo.setText("" + professorvo.getProfessor_id());
+                jTextFieldDepartamento.setText(professorvo.getDepartamento());
+                jTextFieldDisciplina.setText(professorvo.getDisciplinas());
+                jTextFieldEndereco.setText(professorvo.getEndereco());
+                jTextFieldIdade.setText("" + professorvo.getIdade());
+                jTextFieldLinhaPesquisa.setText(professorvo.getLinha_pesquisa());
+                jTextFieldNome.setText(professorvo.getNome());
+                jTextFieldRA.setText("" + professorvo.getRA());
+            }
+        }
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
     /**
