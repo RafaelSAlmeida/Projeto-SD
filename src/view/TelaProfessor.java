@@ -360,7 +360,7 @@ public class TelaProfessor extends javax.swing.JFrame {
             mensagem = montarMensagem(1, professorvo, "professor");
         } else {
             professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));
-            mensagem = montarMensagem(2, professorvo, "disciplina");
+            mensagem = montarMensagem(2, professorvo, "professor");
         }
 
         processador.enviarMensagem(mensagem);
@@ -420,7 +420,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         ProfessorVO professorvo = new ProfessorVO();
         
         String termoBusca = "";
-        termoBusca = JOptionPane.showInputDialog("Digite o NOME DA DISCIPLINA que deseja buscar:");
+        termoBusca = JOptionPane.showInputDialog("Digite o NOME DO PROFESSOR que deseja buscar:");
 
         if (!termoBusca.equals("")) {
             professorvo.setDepartamento("");

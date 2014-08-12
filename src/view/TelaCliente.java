@@ -345,7 +345,8 @@ public class TelaCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAlunosActionPerformed
 
     private void jButtonProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProfessorActionPerformed
-        // TODO add your handling code here:
+        TelaProfessor professor = new TelaProfessor(processador);
+        professor.setVisible(true);
     }//GEN-LAST:event_jButtonProfessorActionPerformed
 
     private void jButtonSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalasActionPerformed
