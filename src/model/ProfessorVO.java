@@ -11,7 +11,6 @@ package model;
  * @author Rauch
  */
 public class ProfessorVO {
-    private int professor_id;
     private int RA;
     private String nome;
     private int idade;
@@ -24,20 +23,6 @@ public class ProfessorVO {
     private String departamento;
     private String linha_pesquisa;
     private String disciplinas;
-
-    /**
-     * @return the professor_id
-     */
-    public int getProfessor_id() {
-        return professor_id;
-    }
-
-    /**
-     * @param professor_id the professor_id to set
-     */
-    public void setProfessor_id(int professor_id) {
-        this.professor_id = professor_id;
-    }
 
     /**
      * @return the RA

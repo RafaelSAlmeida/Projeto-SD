@@ -40,7 +40,6 @@ public class TelaProfessor extends javax.swing.JFrame {
     }
     
      private void limpaCampo() {
-        jTextFieldCodigo.setText("");
         jTextFieldDepartamento.setText("");
         jTextFieldDisciplina.setText("");
         jTextFieldRua.setText("");
@@ -56,7 +55,6 @@ public class TelaProfessor extends javax.swing.JFrame {
     }
     
     private void habilitaCampo(boolean c) {
-        jTextFieldCodigo.setEnabled(c);
         jTextFieldDepartamento.setEnabled(c);
         jTextFieldDisciplina.setEnabled(c);
         jTextFieldRua.setEnabled(c);
@@ -100,8 +98,6 @@ public class TelaProfessor extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jButtonPesquisar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextFieldCodigo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextFieldRA = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -172,8 +168,6 @@ public class TelaProfessor extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Código");
-
         jLabel2.setText("RA");
 
         jLabel4.setText("Nome");
@@ -202,7 +196,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jButtonIncluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonEditar)
@@ -221,9 +215,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addComponent(jLabel2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,8 +246,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jTextFieldUf, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jTextFieldCidade)
-                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addComponent(jTextFieldCidade)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -272,6 +263,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonIncluir)
                     .addComponent(jButtonEditar)
@@ -285,11 +277,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(65, 65, 65))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jTextFieldRA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -368,10 +356,10 @@ public class TelaProfessor extends javax.swing.JFrame {
         professorvo.setNome(jTextFieldNome.getText());
         professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));      
 
-        if (jTextFieldCodigo.getText().equals("")) { // se não possui codigo é uma inserção (id preenche automatico no bd)
+        if (jTextFieldRA.getText().equals("")) { // se não possui codigo é uma inserção (id preenche automatico no bd)
             mensagem = montarMensagem(1, professorvo, "professor");
         } else {
-            professorvo.setProfessor_id(Integer.parseInt(jTextFieldCodigo.getText()));
+            professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));
             mensagem = montarMensagem(2, professorvo, "disciplina");
         }
 
@@ -394,14 +382,13 @@ public class TelaProfessor extends javax.swing.JFrame {
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover o registro?", "Confirmação", JOptionPane.YES_NO_OPTION) == 0){
-            if (jTextFieldCodigo.getText().equals("")){
+            if (jTextFieldRA.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover antes de efetuar a operação.", "Erro", JOptionPane.ERROR_MESSAGE);
             }else{
                 String mensagem;
                 String retornoServidor = "";
                 ProfessorVO professorvo = new ProfessorVO();
                 
-                professorvo.setProfessor_id(Integer.parseInt(jTextFieldCodigo.getText()));
                 professorvo.setDepartamento(jTextFieldDepartamento.getText());
                 professorvo.setDisciplinas(jTextFieldDisciplina.getText());
                 professorvo.setRua(jTextFieldRua.getText());
@@ -413,7 +400,6 @@ public class TelaProfessor extends javax.swing.JFrame {
                 professorvo.setIdade(Integer.parseInt(jTextFieldIdade.getText()));
                 professorvo.setLinha_pesquisa(jTextFieldLinhaPesquisa.getText());
                 professorvo.setNome(jTextFieldNome.getText());
-                professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));
                 
                 mensagem = montarMensagem(3, professorvo, "professor");
                 processador.enviarMensagem(mensagem);
@@ -448,7 +434,6 @@ public class TelaProfessor extends javax.swing.JFrame {
             professorvo.setIdade(0);
             professorvo.setLinha_pesquisa("");
             professorvo.setRA(0);
-            professorvo.setProfessor_id(0);
             professorvo.setNome(termoBusca);
             
             mensagem = montarMensagem(4, professorvo, "professor");
@@ -459,7 +444,6 @@ public class TelaProfessor extends javax.swing.JFrame {
             professorvo = gson.fromJson(tratarMensagemServidor(processador.getConteudoRecebido()), ProfessorVO.class);
 
             if (professorvo != null) {
-                jTextFieldCodigo.setText("" + professorvo.getProfessor_id());
                 jTextFieldDepartamento.setText(professorvo.getDepartamento());
                 jTextFieldDisciplina.setText(professorvo.getDisciplinas());
                 jTextFieldRua.setText(professorvo.getRua());
@@ -518,7 +502,6 @@ public class TelaProfessor extends javax.swing.JFrame {
     private javax.swing.JButton jButtonGravar;
     private javax.swing.JButton jButtonIncluir;
     private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -535,7 +518,6 @@ public class TelaProfessor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldBairro;
     private javax.swing.JTextField jTextFieldCep;
     private javax.swing.JTextField jTextFieldCidade;
-    private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldDepartamento;
     private javax.swing.JTextField jTextFieldDisciplina;
     private javax.swing.JTextField jTextFieldIdade;
