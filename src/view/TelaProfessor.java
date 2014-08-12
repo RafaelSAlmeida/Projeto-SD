@@ -353,8 +353,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         professorvo.setUf(jTextFieldUf.getText());
         professorvo.setIdade(Integer.parseInt(jTextFieldIdade.getText()));
         professorvo.setLinha_pesquisa(jTextFieldLinhaPesquisa.getText());
-        professorvo.setNome(jTextFieldNome.getText());
-        professorvo.setRA(Integer.parseInt(jTextFieldRA.getText()));      
+        professorvo.setNome(jTextFieldNome.getText());    
 
         if (jTextFieldRA.getText().equals("")) { // se não possui codigo é uma inserção (id preenche automatico no bd)
             mensagem = montarMensagem(1, professorvo, "professor");
