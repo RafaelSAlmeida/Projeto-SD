@@ -27,7 +27,28 @@ public class Aulas extends javax.swing.JFrame {
         initComponents();
         gson = new Gson();
         this.processador = processador;
-        setLocationRelativeTo(null);
+        controleCrud(true);
+        String mensagem = "7#aula";
+        processador.enviarMensagem(mensagem);
+        while (!processador.isRecebeuMsg()) {
+        /* gambiarra para aguardar o retorno do servidor :D */
+        }
+        System.out.println("Entrou aqui");
+        
+        //Preencher combobox
+        AulaVO aulavo = new AulaVO();
+        aulavo = gson.fromJson(tratarMensagemServidor(processador.getConteudoRecebido()), AulaVO.class);
+        jCDisciplinaBusca.removeAllItems();
+        jCDisciplina.removeAllItems();
+        jCSala.removeAllItems();
+
+        int[] disciplina = new int[10];
+        disciplina = aulavo.getDisciplina_associada();
+        for (int registro = 0; registro < disciplina.length; registro++){
+            jCDisciplinaBusca.addItem(disciplina[registro]);
+            jCDisciplina.addItem(disciplina[registro]);
+            setLocationRelativeTo(null);
+        }
     }
 
     /**
@@ -50,7 +71,7 @@ public class Aulas extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTAlunos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jbSalvar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jCDisciplinaBusca = new javax.swing.JComboBox();
@@ -58,7 +79,7 @@ public class Aulas extends javax.swing.JFrame {
         jBPesquisar = new javax.swing.JButton();
         jBEditar = new javax.swing.JButton();
         jBExcluir = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jBLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,10 +122,10 @@ public class Aulas extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTAlunos);
 
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbSalvarActionPerformed(evt);
             }
         });
 
@@ -143,7 +164,12 @@ public class Aulas extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Cancelar");
+        jBLimpar.setText("Limpar");
+        jBLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBLimparActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,13 +212,13 @@ public class Aulas extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addComponent(jButton1)
+                .addComponent(jbSalvar)
                 .addGap(29, 29, 29)
                 .addComponent(jBEditar)
                 .addGap(27, 27, 27)
                 .addComponent(jBExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(jBLimpar)
                 .addGap(34, 34, 34))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -234,10 +260,10 @@ public class Aulas extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jbSalvar)
                     .addComponent(jBEditar)
                     .addComponent(jBExcluir)
-                    .addComponent(jButton5))
+                    .addComponent(jBLimpar))
                 .addContainerGap())
         );
 
@@ -253,6 +279,16 @@ public class Aulas extends javax.swing.JFrame {
         }
     }
     
+    private void limpaCampo() {
+        jTConteudo.setText("");
+    }
+    
+    private void controleCrud(boolean b) {
+        jBEditar.setEnabled(!b);
+        jBExcluir.setEnabled(!b);
+        jbSalvar.setEnabled(b);
+    }
+    
     private void jBPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPesquisarActionPerformed
         String mensagem;
         String retornoServidor = "";
@@ -263,7 +299,9 @@ public class Aulas extends javax.swing.JFrame {
 
         if (!termoBusca.equals("")) {*/
             int disciplina = jCDisciplinaBusca.getSelectedIndex();
-            aulavo.setDisciplina_associada(disciplina);
+            int[] array_disciplina = new int[10];
+            array_disciplina[0] = disciplina;
+            aulavo.setDisciplina_associada(array_disciplina);
             
             mensagem = "4#"+"aula+"+aulavo;
             processador.enviarMensagem(mensagem);
@@ -276,10 +314,12 @@ public class Aulas extends javax.swing.JFrame {
                 jTConteudo.setText(aulavo.getConteudo_programatico());
                 
                 for(int i = 0; i < jCDisciplina.getItemCount(); i++){
+                    /*int[] array_disciplina = new int[10];
+                    
                     if(i == aulavo.getDisciplina_associada()){
                         jCDisciplina.setSelectedIndex(aulavo.getDisciplina_associada());
                         break;
-                    }
+                    }*/
                 }
                 
                 for(int i = 0; i < jCSala.getItemCount(); i++){
@@ -303,16 +343,17 @@ public class Aulas extends javax.swing.JFrame {
                 }*/
             }
         //}
+        controleCrud(false);
     }//GEN-LAST:event_jBPesquisarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         String mensagem;
         String retornoServidor = "";
         AulaVO aulavo = new AulaVO();
 
         aulavo.setConteudo_programatico(jTConteudo.getText());
-        aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
-        aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
+        //aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
+        //aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
         for(int i = 0; i < jTAlunos.getRowCount(); i++){
             if(jTAlunos.getValueAt(i, 2) == true){
                 String aluno[] = null;
@@ -330,7 +371,9 @@ public class Aulas extends javax.swing.JFrame {
 
         retornoServidor = processador.getConteudoRecebido();
         JOptionPane.showMessageDialog(null, tratarMensagemServidor(retornoServidor), "Resposta do Servidor", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        controleCrud(true);
+        limpaCampo();
+    }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
         String mensagem;
@@ -338,8 +381,8 @@ public class Aulas extends javax.swing.JFrame {
         AulaVO aulavo = new AulaVO();
 
         aulavo.setConteudo_programatico(jTConteudo.getText());
-        aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
-        aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
+        //aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
+        //aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
         for(int i = 0; i < jTAlunos.getRowCount(); i++){
             if(jTAlunos.getValueAt(i, 2) == true){
                 String aluno[] = null;
@@ -365,8 +408,8 @@ public class Aulas extends javax.swing.JFrame {
         AulaVO aulavo = new AulaVO();
 
         aulavo.setConteudo_programatico(jTConteudo.getText());
-        aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
-        aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
+        //aulavo.setDisciplina_associada(jCDisciplina.getSelectedIndex());
+        //aulavo.setSala_aula_associada(jCSala.getSelectedIndex());
         for(int i = 0; i < jTAlunos.getRowCount(); i++){
             if(jTAlunos.getValueAt(i, 2) == true){
                 String aluno[] = null;
@@ -385,6 +428,11 @@ public class Aulas extends javax.swing.JFrame {
         retornoServidor = processador.getConteudoRecebido();
         JOptionPane.showMessageDialog(null, tratarMensagemServidor(retornoServidor), "Resposta do Servidor", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jBExcluirActionPerformed
+
+    private void jBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimparActionPerformed
+        limpaCampo();
+        
+    }//GEN-LAST:event_jBLimparActionPerformed
 
     /**
      * @param args the command line arguments
@@ -423,9 +471,8 @@ public class Aulas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBExcluir;
+    private javax.swing.JButton jBLimpar;
     private javax.swing.JButton jBPesquisar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox jCDisciplina;
     private javax.swing.JComboBox jCDisciplinaBusca;
     private javax.swing.JComboBox jCSala;
@@ -441,5 +488,6 @@ public class Aulas extends javax.swing.JFrame {
     private javax.swing.JTable jTAlunos;
     private javax.swing.JTextArea jTConteudo;
     private javax.swing.JTable jTable2;
+    private javax.swing.JButton jbSalvar;
     // End of variables declaration//GEN-END:variables
 }
